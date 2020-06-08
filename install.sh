@@ -4,7 +4,6 @@
 SCRIPT=$(readlink -f $0)
 # Absolute path this script is in. /home/user/bin
 SCRIPTPATH=`dirname $SCRIPT`
-decision='yes'
 
 if [ cat /etc/crontab | grep "vpn-report.sh" ]; then
     # Script is installed, uninstall?
@@ -18,7 +17,7 @@ else
     # Script is not installed, install?
     echo -n "Are you sure you want to install? (yes/NO) "
     read decision
-
+    echo -n "Your decision: $decision"
     if [ "$decision" == "yes" ]; then
         cp ./vpn-report-sample.sh ./vpn-report.sh
         echo -n "Adding to crontab..."
