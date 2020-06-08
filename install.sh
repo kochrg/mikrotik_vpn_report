@@ -7,22 +7,15 @@ SCRIPTPATH=`dirname $SCRIPT`
 
 if cat /etc/crontab | grep "vpn-report.sh"; then
     # Script is installed, uninstall?
-    echo -n "Are you sure you want to uninstall? (yes/NO) "
-    read decision
-    if "$decision" == "yes"; then
-        echo -n "Uninstalling..."
-        sed -i "vpn-report.sh" /etc/crontab
-    fi
+    echo -n "Uninstalling... "
+    sed -i "vpn-report.sh" /etc/crontab
 else
     # Script is not installed, install?
-    echo -n "Are you sure you want to install? (yes/NO) "
-    read decision
-    if "$decision" == "yes" ; then
-        cp ./vpn-report-sample.sh ./vpn-report.sh
-        echo -n "Adding to crontab..."
-        echo -e "0 21\t* * *\troot\tsh $SCRIPTPATH/vpn-report.sh" >> /etc/crontab
-        echo -n "Remember to edit the file $SCRIPTPATH/vpn-report.sh for personal config."
-    fi
+    echo -n "Installing... "
+    cp ./vpn-report-sample.sh ./vpn-report.sh
+    echo -n "Adding to crontab..."
+    echo -e "0 21\t* * *\troot\tsh $SCRIPTPATH/vpn-report.sh" >> /etc/crontab
+    echo -n "Remember to edit the file $SCRIPTPATH/vpn-report.sh for personal config."
 fi
 
 echo -n "DONE...."
