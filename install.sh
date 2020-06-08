@@ -21,7 +21,7 @@ else
     if $decision == 'yes'; then
         cp ./vpn-report-sample.sh ./vpn-report.sh
         echo -n "Adding to crontab..."
-        echo -e "0 *\t* * *\troot\tsh $SCRIPTPATH/vpn-report.sh" >> /etc/crontab
+        echo -e "0 21\t* * *\troot\tsh $SCRIPTPATH/vpn-report.sh" >> /etc/crontab
         echo -n "Remember to edit the file $SCRIPTPATH/vpn-report.sh for personnal config."
     fi
 fi
