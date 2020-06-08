@@ -1,0 +1,13 @@
+#MikroTik COMMANDS for remote log creation
+
+# Creating log file for l2tp
+/system logging action add name=l2tplog target=disk disk-file-name=l2tplog
+
+# Add logging action
+/system logging add action=l2tplog
+
+#Topic and message filtering
+/system logging add topics=l2tp action=l2tplog
+
+# Log print
+log print where message~"connected" and (topics~"l2tp") disk-file-name=l2tplog
