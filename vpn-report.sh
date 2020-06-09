@@ -81,15 +81,15 @@ if [$day -gt $REPORT_DAY] then
     month=date -d "$(date +%Y-%m-1) 1 month" +%-m
 fi
 
-if ! test -d "./reports"; then
+if ! test -d "./reports" then
     mkdir ./reports
 fi
 
-if ! test -d "./reports/$year"; then
+if ! test -d "./reports/$year" then
     mkdir ./reports/$year
 fi
 
-if ! test -d "./reports/$year/$month"; then
+if ! test -d "./reports/$year/$month" then
     mkdir ./reports/$year/$month
 fi
 
