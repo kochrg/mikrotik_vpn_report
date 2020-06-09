@@ -2,13 +2,13 @@
 
 # Edit PREFIX, EMAIL, REPORT_DAY variables with your own
 # PREFIX: the prefix you use in your MikroTik config log
-PREFIX=
+PREFIX="vpnamfestram"
 # Email you want to send the report
-FROM_NAME=          # your name
-EMAIL_FROM=         # your email
-EMAIL_TO=           # dest email
+FROMNAME="Informatica"          # your name
+EMAILFROM="informatica@municipales.org.ar"         # your email
+EMAILTO="informaticafestram@gmail.com"           # dest email
 # Day of month you want to send the report
-REPORT_DAY=
+REPORTDAY="26"
 
 year=$(date +%Y)
 month=$(date +%m)
