@@ -74,8 +74,8 @@ case $month in
         ;;
 esac
 
-if $day -gt $REPORT_DAY; then
-    if $month == '12'; then
+if [$day -gt $REPORT_DAY] then
+    if [$month -eq '12'] then
         year=date -d "$(date +%Y-%m-1) 1 year" +%-Y
     fi
     month=date -d "$(date +%Y-%m-1) 1 month" +%-m
@@ -95,7 +95,7 @@ fi
 
 echo cat /var/log/syslog | grep $PREFIX | grep connected >> ./reports/$year/$month/report.txt
 
-if $day -eq $REPORT_DAY; then
+if [$day -eq $REPORT_DAY] then
     # Send report in email
     mail -s "VPN Access report" -a FROM:$FROM_NAME\<$EMAIL_FROM\> $EMAIL_TO < ./reports/$year/$month/report.txt
 fi
