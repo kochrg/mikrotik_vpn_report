@@ -10,12 +10,72 @@ EMAIL_TO=           # dest email
 # Day of month you want to send the report
 REPORT_DAY=
 
-year=$(date +%Y)
-month=$(date +%m)
-day=$(date +%d)
+year=$((date +%Y))
+month=$((date +%m))
+day=$((date +%d))
 
-if $day > $REPORT_DAY; then
-    if $month == '12'; then
+case $day in
+    01)
+        day=1
+        ;;
+    02)
+        day=2
+        ;;
+    03)
+        day=3
+        ;;
+    04)
+        day=4
+        ;;
+    05)
+        day=5
+        ;;
+    06)
+        day=6
+        ;;
+    07)
+        day=7
+        ;;
+    08)
+        day=8
+        ;;
+    09)
+        day=9
+        ;;
+esac
+
+case $month in
+    01)
+        month=1
+        ;;
+    02)
+        month=2
+        ;;
+    03)
+        month=3
+        ;;
+    04)
+        month=4
+        ;;
+    05)
+        month=5
+        ;;
+    06)
+        month=6
+        ;;
+    07)
+        month=7
+        ;;
+    08)
+        month=8
+        ;;
+    09)
+        month=9
+        ;;
+esac
+
+if (($day -gt $REPORT_DAY)); then
+    if (($month == '12')); then
         year=(date -d "$(date +%Y-%m-1) 1 year" +%-Y)
     fi
     month=(date -d "$(date +%Y-%m-1) 1 month" +%-m)
@@ -35,7 +95,7 @@ fi
 
 echo cat /var/log/syslog | grep $PREFIX | grep connected >> ./reports/$year/$month/report.txt
 
-if $day == $REPORT_DAY; then
+if (($day -eq $REPORT_DAY)); then
     # Send report in email
     mail -s "VPN Access report" -a FROM:$FROM_NAME\<$EMAIL_FROM\> $EMAIL_TO < ./reports/$year/$month/report.txt
 fi
