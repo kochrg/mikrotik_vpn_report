@@ -93,7 +93,7 @@ if ! test -d "./reports/$year/$month"; then
     mkdir ./reports/$year/$month
 fi
 
-echo cat /var/log/syslog | grep $PREFIX | grep connected >> ./reports/$year/$month/report.txt
+cat /var/log/syslog | grep $PREFIX | grep connected >> ./reports/$year/$month/report.txt
 
 if [ "$day" -eq "$REPORTDAY" ]; then
     # Send report in email

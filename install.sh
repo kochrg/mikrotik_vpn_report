@@ -21,7 +21,7 @@ else
     echo -n "Installing... "
     cp ./vpn-report-sample.sh ./vpn-report.sh
     echo -n "Adding to crontab..."
-    echo -e "$M $H\t* * *\troot\tsh $SCRIPTPATH/vpn-report.sh" >> /etc/crontab
+    echo "$M $H\t* * *\troot\tsh $SCRIPTPATH/vpn-report.sh" >> /etc/crontab
     echo -n "Remember to edit the file $SCRIPTPATH/vpn-report.sh for personal config."
 fi
 
