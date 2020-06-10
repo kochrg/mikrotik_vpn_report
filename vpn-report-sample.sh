@@ -101,7 +101,15 @@ fi
 
 cat /var/log/syslog | grep $PREFIX | grep connected >> $SCRIPTPATH/reports/$year/$month/report.txt
 
-sendday=date -d "$(date +%Y-%m-1) 1 day" +%+d
+# If tomorrow is the day to send the report, then send the report
+# use this if you send the report at night and don't want to include
+# the REPORTDAY in the report
+sendday=$(date --date="1 day" +%d)
+
+# If you want to include the REPORTDAY in the report
+# just comment the line sendday=$(date --date="1 day" +%d) before
+# and uncomment the next line:
+# sendday=$(date +%d)
 
 if [ "$sendday" -eq "$REPORTDAY" ]; then
     # Send report in email
