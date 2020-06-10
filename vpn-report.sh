@@ -10,6 +10,12 @@ EMAILTO="informaticafestram@gmail.com"           # dest email
 # Day of month you want to send the report
 REPORTDAY="26"
 
+# Absolute path to this script.
+SCRIPT=$(readlink -f $0)
+
+# Absolute path this script is in.
+SCRIPTPATH=`dirname $SCRIPT`
+
 year=$(date +%Y)
 month=$(date +%m)
 day=$(date +%d)
@@ -85,19 +91,19 @@ if ! test -d "./reports"; then
     mkdir ./reports
 fi
 
-if ! test -d "./reports/$year"; then
-    mkdir ./reports/$year
+if ! test -d "$SCRIPTPATH/reports/$year"; then
+    mkdir $SCRIPTPATH/reports/$year
 fi
 
-if ! test -d "./reports/$year/$month"; then
-    mkdir ./reports/$year/$month
+if ! test -d "$SCRIPTPATH/reports/$year/$month"; then
+    mkdir $SCRIPTPATH/reports/$year/$month
 fi
 
-# cat /var/log/syslog | grep $PREFIX | grep connected >> ./reports/$year/$month/report.txt
-echo "saving log"
+# cat /var/log/syslog | grep $PREFIX | grep connected >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "saving log on $SCRIPTPATH/reports/$year/$month/report.txt"
 
 if [ "$day" -eq "$REPORTDAY" ]; then
     # Send report in email
-    #mail -s "VPN Access report" -a FROM:$FROMNAME\<$EMAILFROM\> $EMAILTO < ./reports/$year/$month/report.txt
+    #mail -s "VPN Access report" -a FROM:$FROMNAME\<$EMAILFROM\> $EMAILTO < $SCRIPTPATH/reports/$year/$month/report.txt
     echo "send mail"
 fi

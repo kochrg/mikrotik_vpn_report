@@ -10,6 +10,12 @@ EMAILTO=           # dest email
 # Day of month you want to send the report
 REPORTDAY=
 
+# Absolute path to this script. /home/user/bin/foo.sh
+SCRIPT=$(readlink -f $0)
+
+# Absolute path this script is in. /home/user/bin
+SCRIPTPATH=`dirname $SCRIPT`
+
 year=$(date +%Y)
 month=$(date +%m)
 day=$(date +%d)
@@ -82,20 +88,20 @@ if [ "$day" -gt "$REPORTDAY" ]; then
 fi
 
 if ! test -d "./reports"; then
-    mkdir ./reports
+    mkdir $SCRIPTPATH/reports
 fi
 
-if ! test -d "./reports/$year"; then
-    mkdir ./reports/$year
+if ! test -d "$SCRIPTPATH/reports/$year"; then
+    mkdir $SCRIPTPATH/reports/$year
 fi
 
-if ! test -d "./reports/$year/$month"; then
-    mkdir ./reports/$year/$month
+if ! test -d "$SCRIPTPATH/reports/$year/$month"; then
+    mkdir $SCRIPTPATH/reports/$year/$month
 fi
 
-cat /var/log/syslog | grep $PREFIX | grep connected >> ./reports/$year/$month/report.txt
+cat /var/log/syslog | grep $PREFIX | grep connected >> $SCRIPTPATH/reports/$year/$month/report.txt
 
 if [ "$day" -eq "$REPORTDAY" ]; then
     # Send report in email
-    mail -s "VPN Access report" -a FROM:$FROMNAME\<$EMAILFROM\> $EMAILTO < ./reports/$year/$month/report.txt
+    mail -s "VPN Access report" -a FROM:$FROMNAME\<$EMAILFROM\> $EMAILTO < $SCRIPTPATH/reports/$year/$month/report.txt
 fi
