@@ -102,7 +102,10 @@ fi
 # cat /var/log/syslog | grep $PREFIX | grep connected >> $SCRIPTPATH/reports/$year/$month/report.txt
 echo "saving log on $SCRIPTPATH/reports/$year/$month/report.txt"
 
-if [ "$day" -eq "$REPORTDAY" ]; then
+sendday=date -d "$(date +%Y-%m-1) 1 day" +%+d
+echo "sendday: $sendday"
+
+if [ "$sendday" -eq "$REPORTDAY" ]; then
     # Send report in email
     #mail -s "VPN Access report" -a FROM:$FROMNAME\<$EMAILFROM\> $EMAILTO < $SCRIPTPATH/reports/$year/$month/report.txt
     echo "send mail"
