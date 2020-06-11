@@ -15,3 +15,8 @@ Installation and configuration steps:
    remote server
 6. Run install.sh
 7. Edit the file vpn-report.sh
+
+By default, the script executes at 9 p.m. everyday, you can change that with
+H= and M= values in install.sh file
+
+To see errors in cron execution go to the file /var/log/cron_reports.err
