@@ -99,6 +99,7 @@ if ! test -d "$SCRIPTPATH/reports/$year/$month"; then
     mkdir $SCRIPTPATH/reports/$year/$month
 fi
 
+echo -n "# $(date) - SAVING DATA;" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
 cat /var/log/syslog | grep $PREFIX | grep connected >> $SCRIPTPATH/reports/$year/$month/report.txt
 
 # If tomorrow is the day to send the report, then send the report
@@ -113,5 +114,6 @@ sendday=$(date --date="1 day" +%d)
 
 if [ "$sendday" -eq "$REPORTDAY" ]; then
     # Send report in email
+    echo -n "# $(date) - SENDING MAIL;" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
     mail -s "VPN Access report" -a FROM:$FROMNAME\<$EMAILFROM\> $EMAILTO < $SCRIPTPATH/reports/$year/$month/report.txt
 fi
