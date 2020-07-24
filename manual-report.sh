@@ -116,7 +116,7 @@ echo "$(cat ./manual-reports/syslog.4 | grep connected)" >> $SCRIPTPATH/reports/
 echo "$(cat ./manual-reports/syslog.3 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
 echo "$(cat ./manual-reports/syslog.2 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
 echo "$(cat ./manual-reports/syslog.1 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
-echo "$(cat ./manual-reports/syslog | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+#echo "$(cat ./manual-reports/syslog | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
 printf "# $(date) - DATA SAVED;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
 
 rm -r ./manual-reports/syslog*
