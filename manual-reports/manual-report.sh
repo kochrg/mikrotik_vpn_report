@@ -16,6 +16,15 @@ SCRIPT=$(readlink -f $0)
 # Absolute path this script is in. /home/user/bin
 SCRIPTPATH=`dirname $SCRIPT`
 
+cp /var/log/syslog* ./
+
+gzip -d syslog.7.gz
+gzip -d syslog.6.gz
+gzip -d syslog.5.gz
+gzip -d syslog.4.gz
+gzip -d syslog.3.gz
+gzip -d syslog.2.gz
+
 year=$(date +%Y)
 month=$(date +%m)
 day=$(date +%d)
@@ -100,22 +109,12 @@ if ! test -d "$SCRIPTPATH/reports/$year/$month"; then
 fi
 
 printf "# $(date) - SAVING DATA;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
+echo "$(cat /var/log/syslog.7 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat /var/log/syslog.6 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat /var/log/syslog.5 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat /var/log/syslog.4 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat /var/log/syslog.3 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat /var/log/syslog.2 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat /var/log/syslog.1 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
 echo "$(cat /var/log/syslog | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
 printf "# $(date) - DATA SAVED;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
-
-# If tomorrow is the day to send the report -> then send the report
-# use this if you send the report at night and don't want to include
-# the REPORTDAY in the report
-sendday=$(date --date="1 day" +%d)
-
-# If you want to include the REPORTDAY in the report
-# just comment the line sendday=$(date --date="1 day" +%d) before
-# and uncomment the next line:
-# sendday=$(date +%d)
-
-if [ "$sendday" -eq "$REPORTDAY" ]; then
-    # Send report in email
-    printf "# $(date) - SENDING MAIL;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
-    mail -s "VPN Access report" -a FROM:$FROMNAME\<$EMAILFROM\> $EMAILTO < $SCRIPTPATH/reports/$year/$month/report.txt
-    printf "# $(date) - MAIL SENT;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
-fi
