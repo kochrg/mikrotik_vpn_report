@@ -16,14 +16,14 @@ SCRIPT=$(readlink -f $0)
 # Absolute path this script is in. /home/user/bin
 SCRIPTPATH=`dirname $SCRIPT`
 
-cp /var/log/syslog* ./
+cp /var/log/syslog* ./manual-reports
 
-gzip -d syslog.7.gz
-gzip -d syslog.6.gz
-gzip -d syslog.5.gz
-gzip -d syslog.4.gz
-gzip -d syslog.3.gz
-gzip -d syslog.2.gz
+gzip -d ./manual-reports/syslog.7.gz
+gzip -d ./manual-reports/syslog.6.gz
+gzip -d ./manual-reports/syslog.5.gz
+gzip -d ./manual-reports/syslog.4.gz
+gzip -d ./manual-reports/syslog.3.gz
+gzip -d ./manual-reports/syslog.2.gz
 
 year=$(date +%Y)
 month=$(date +%m)
@@ -109,14 +109,14 @@ if ! test -d "$SCRIPTPATH/reports/$year/$month"; then
 fi
 
 printf "# $(date) - SAVING DATA;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
-echo "$(cat ./syslog.7 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
-echo "$(cat ./syslog.6 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
-echo "$(cat ./syslog.5 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
-echo "$(cat ./syslog.4 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
-echo "$(cat ./syslog.3 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
-echo "$(cat ./syslog.2 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
-echo "$(cat ./syslog.1 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
-echo "$(cat ./syslog | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat ./manual-reports/syslog.7 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat ./manual-reports/syslog.6 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat ./manual-reports/syslog.5 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat ./manual-reports/syslog.4 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat ./manual-reports/syslog.3 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat ./manual-reports/syslog.2 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat ./manual-reports/syslog.1 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat ./manual-reports/syslog | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
 printf "# $(date) - DATA SAVED;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
 
-rm -r ./syslog*
+rm -r ./manual-reports/syslog*
