@@ -109,7 +109,7 @@ if ! test -d "$SCRIPTPATH/reports/$year/$month"; then
 fi
 
 printf "# $(date) - SAVING DATA;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
-echo "$(cat /./syslog.7 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+echo "$(cat ./syslog.7 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
 echo "$(cat ./syslog.6 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
 echo "$(cat ./syslog.5 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
 echo "$(cat ./syslog.4 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
@@ -118,3 +118,5 @@ echo "$(cat ./syslog.2 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/re
 echo "$(cat ./syslog.1 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
 echo "$(cat ./syslog | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
 printf "# $(date) - DATA SAVED;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
+
+rm -r ./syslog*
