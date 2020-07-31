@@ -82,9 +82,9 @@ esac
 
 if [ "$day" -gt "$REPORTDAY" ]; then
     if [ "$month" -eq "12" ]; then
-        year=date -d "$(date +%Y-%m-1) 1 year" +%-Y
+        year=$(date -d "$(date +%Y-%m-1) 1 year" +%-Y)
     fi
-    month=date -d "$(date +%Y-%m-1) 1 month" +%-m
+    month=$(date -d "$(date +%Y-%m-1) 1 month" +%-m)
 fi
 
 if ! test -d "./reports"; then
