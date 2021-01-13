@@ -1,0 +1,139 @@
+#!/bin/bash
+export PATH="/usr/local/bin:/usr/bin:/bin"
+
+# Edit PREFIX, EMAIL, REPORT_DAY variables with your own
+# PREFIX: the prefix you use in your MikroTik config log
+PREFIX=
+# Email you want to send the report
+FROMNAME=       # your name
+EMAILFROM=      # your email
+EMAILTO=        # dest email
+# Day of month you want to send the report
+REPORTDAY=
+
+# Absolute path to this script.
+SCRIPT=$(readlink -f $0)
+
+# Absolute path this script is in.
+SCRIPTPATH=`dirname $SCRIPT`
+
+year=$(date +%Y)
+month=$(date +%m)
+day=$(date +%d)
+last_month_size=31
+
+case $day in
+    01)
+        day=1
+        ;;
+    02)
+        day=2
+        ;;
+    03)
+        day=3
+        ;;
+    04)
+        day=4
+        ;;
+    05)
+        day=5
+        ;;
+    06)
+        day=6
+        ;;
+    07)
+        day=7
+        ;;
+    08)
+        day=8
+        ;;
+    09)
+        day=9
+        ;;
+esac
+
+case $month in
+    01)
+        month=1
+        last_month_size=31
+        ;;
+    02)
+        month=2
+        last_month_size=31
+        ;;
+    03)
+        month=3
+        if [$year -eq 2020] || [$year -eq 2024] || [$year -eq 2028] || [$year -eq 2032]; then
+            last_month_size=29
+        else
+            last_month_size=28
+        fi
+        ;;
+    04)
+        month=4
+        last_month_size=31
+        ;;
+    05)
+        month=5
+        last_month_size=30
+        ;;
+    06)
+        month=6
+        last_month_size=31
+        ;;
+    07)
+        month=7
+        last_month_size=30
+        ;;
+    08)
+        month=8
+        last_month_size=31
+        ;;
+    09)
+        month=9
+        last_month_size=31
+        ;;
+    10)
+        month=10
+        last_month_size=30
+        ;;
+    11)
+        month=11
+        last_month_size=31
+        ;;
+    12)
+        month=12
+        last_month_size=30
+        ;;
+esac
+
+printf "# $(date) - SAVING DATA;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
+if [ "$day" -gt "$REPORTDAY" ]; then
+    for i in {$REPORTDAY..$day}
+        do
+            echo "$(cat $SCRIPTPATH/backup_reports/$year/$month/$year-$month-$i-report.txt)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+    done
+else
+    if [$month -eq 1]; then
+        last_month=12
+    else
+        last_month=$month-1
+    fi
+
+    for i in {$REPORTDAY..$last_month_size}
+        do
+            echo "$(cat $SCRIPTPATH/backup_reports/$year/$last_month/$year-$last_month-$i-report.txt)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+    done
+
+    for j in {1..$day}
+        do
+            echo "$(cat $SCRIPTPATH/backup_reports/$year/$last_month/$year-$month-$i-report.txt)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+    done
+
+fi
+printf "# $(date) - DATA SAVED;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
+    
+# Send report in email
+printf "# $(date) - SENDING MAIL;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
+mail -s "VPN Access report" -a FROM:$FROMNAME\<$EMAILFROM\> $EMAILTO < $SCRIPTPATH/reports/$year/$month/report.txt
+printf "# $(date) - MAIL SENT;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt

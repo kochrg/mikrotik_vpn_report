@@ -96,18 +96,6 @@ if [ "$day" -gt "$REPORTDAY" ]; then
     month=$(date -d "$(date +%Y-%m-1) 1 month" +%-m)
 fi
 
-if ! test -d "./reports"; then
-    mkdir $SCRIPTPATH/reports
-fi
-
-if ! test -d "$SCRIPTPATH/reports/$year"; then
-    mkdir $SCRIPTPATH/reports/$year
-fi
-
-if ! test -d "$SCRIPTPATH/reports/$year/$month"; then
-    mkdir $SCRIPTPATH/reports/$year/$month
-fi
-
 printf "# $(date) - SAVING DATA;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
 echo "$(cat ./manual-reports/syslog.7 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt
 echo "$(cat ./manual-reports/syslog.6 | grep connected)" >> $SCRIPTPATH/reports/$year/$month/report.txt

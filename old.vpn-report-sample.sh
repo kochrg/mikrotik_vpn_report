@@ -1,19 +1,20 @@
 #!/bin/bash
+export PATH="/usr/local/bin:/usr/bin:/bin"
 
 # Edit PREFIX, EMAIL, REPORT_DAY variables with your own
 # PREFIX: the prefix you use in your MikroTik config log
 PREFIX=
 # Email you want to send the report
-FROMNAME=          # your name
-EMAILFROM=         # your email
-EMAILTO=           # dest email
+FROMNAME=       # your name
+EMAILFROM=      # your email
+EMAILTO=        # dest email
 # Day of month you want to send the report
 REPORTDAY=
 
-# Absolute path to this script. /home/user/bin/foo.sh
+# Absolute path to this script.
 SCRIPT=$(readlink -f $0)
 
-# Absolute path this script is in. /home/user/bin
+# Absolute path this script is in.
 SCRIPTPATH=`dirname $SCRIPT`
 
 year=$(date +%Y)
@@ -78,6 +79,15 @@ case $month in
     09)
         month=9
         ;;
+    10)
+        month=10
+        ;;
+    11)
+        month=11
+        ;;
+    12)
+        month=12
+        ;;
 esac
 
 if [ "$day" -gt "$REPORTDAY" ]; then
@@ -85,18 +95,6 @@ if [ "$day" -gt "$REPORTDAY" ]; then
         year=$(date -d "$(date +%Y-%m-1) 1 year" +%-Y)
     fi
     month=$(date -d "$(date +%Y-%m-1) 1 month" +%-m)
-fi
-
-if ! test -d "./reports"; then
-    mkdir $SCRIPTPATH/reports
-fi
-
-if ! test -d "$SCRIPTPATH/reports/$year"; then
-    mkdir $SCRIPTPATH/reports/$year
-fi
-
-if ! test -d "$SCRIPTPATH/reports/$year/$month"; then
-    mkdir $SCRIPTPATH/reports/$year/$month
 fi
 
 printf "# $(date) - SAVING DATA;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt

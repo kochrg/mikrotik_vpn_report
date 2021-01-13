@@ -6,23 +6,44 @@ SCRIPT=$(readlink -f $0)
 # Absolute path this script is in. /home/user/bin
 SCRIPTPATH=`dirname $SCRIPT`
 
+# Day to generate the report
+REPORTDAY=25
+
 # Hour to execute the script
 H=21
 
 # Minutes
 M=00
 
-if cat /etc/crontab | grep "vpn-report.sh"; then
+if cat /etc/crontab | grep "generate-vpn-report.sh"; then
     # Script is installed, uninstall?
     echo -n "Uninstalling... "
-    sed -i "vpn-report.sh" /etc/crontab
+    sed -i "generate-vpn-report.sh" /etc/crontab
 else
     # Script is not installed, install?
     echo -n "Installing... "
-    cp ./vpn-report-sample.sh ./vpn-report.sh
+    echo -n "Creating folders..."
+    mkdir $SCRIPTPATH/reports
+    mkdir $SCRIPTPATH/backup_reports
+    for year in {2021..2030}
+        do
+            mkdir $SCRIPTPATH/reports/$year
+            mkdir $SCRIPTPATH/backup_reports/$year
+
+            for month in {1..12}
+                do
+                    mkdir $SCRIPTPATH/reports/$year/$month
+                    mkdir $SCRIPTPATH/backup_reports/$year/$month
+                    mkdir $SCRIPTPATH/backup_reports/$year/$month/syslog_files
+            done
+    done
+    cp ./generate-vpn-report-sample.sh ./generate-vpn-report.sh
+    cp ./backup-vpn-report-sample.sh ./backup-vpn-report.sh
     echo -n "Adding to crontab..."
-    echo "$M $H\t* * *\troot\tsh $SCRIPTPATH/vpn-report.sh 1> /dev/null 2>/var/log/cron_report.err" >> /etc/crontab
-    echo -n "Remember to edit $SCRIPTPATH/vpn-report.sh for personal config."
+    echo "$M $H\t* * *\troot\tsh $SCRIPTPATH/backup-vpn-report.sh"
+    echo "$M $H\t$REPORTDAY * *\troot\tsh $SCRIPTPATH/generate-vpn-report.sh"
+    echo -n "Remember to edit $SCRIPTPATH/generate-vpn-report.sh "
+    echo -n "and $SCRIPTPATH/backup-vpn-report.sh for personal config."
 fi
 
 echo -n "DONE...."
