@@ -15,10 +15,10 @@ H=21
 # Minutes
 M=00
 
-if cat /etc/crontab | grep "generate-vpn-report.sh"; then
+if cat /etc/crontab | grep "generate-vpn-report"; then
     # Script is installed, uninstall?
     echo -n "Uninstalling... "
-    sed -i "generate-vpn-report.sh" /etc/crontab
+    sed -i "generate-vpn-report" /etc/crontab
 else
     # Script is not installed, install?
     echo -n "Installing... "
@@ -37,8 +37,8 @@ else
                     mkdir $SCRIPTPATH/backup_reports/$year/$month/syslog_files
             done
     done
-    cp ./generate-vpn-report-sample.sh ./generate-vpn-report.sh
-    cp ./backup-vpn-report-sample.sh ./backup-vpn-report.sh
+    cp ./generate-vpn-report-sample ./generate-vpn-report
+    cp ./backup-vpn-report-sample ./backup-vpn-report
     echo -n "Adding to crontab..."
     echo "$M $H\t* * *\troot\tbash $SCRIPTPATH/backup-vpn-report"
     echo "$M $H\t$REPORTDAY * *\troot\tbash $SCRIPTPATH/generate-vpn-report"
