@@ -109,25 +109,25 @@ esac
 
 printf "# $(date) - SAVING DATA;\n" >> $SCRIPTPATH/reports/$year/$month/cronlog.txt
 if [ "$day" -gt "$REPORTDAY" ]; then
-    for i in {$REPORTDAY..$day}
+    for ((i=$REPORTDAY; i<=$day; i++))
         do
             echo "$(cat $SCRIPTPATH/backup_reports/$year/$month/$year-$month-$i-report.txt)" >> $SCRIPTPATH/reports/$year/$month/report.txt
     done
 else
-    if [$month -eq 1]; then
+    if [ "$month" -eq 1 ]; then
         last_month=12
     else
-        last_month=$month-1
+        last_month="$(($month-1))"
     fi
 
-    for i in {$REPORTDAY..$last_month_size}
+    for ((i=$REPORTDAY; i<=$last_month_size; i++))
         do
             echo "$(cat $SCRIPTPATH/backup_reports/$year/$last_month/$year-$last_month-$i-report.txt)" >> $SCRIPTPATH/reports/$year/$month/report.txt
     done
 
-    for j in {1..$day}
+    for ((j=1; j<=$day; j++))
         do
-            echo "$(cat $SCRIPTPATH/backup_reports/$year/$last_month/$year-$month-$i-report.txt)" >> $SCRIPTPATH/reports/$year/$month/report.txt
+            echo "$(cat $SCRIPTPATH/backup_reports/$year/$month/$year-$month-$j-report.txt)" >> $SCRIPTPATH/reports/$year/$month/report.txt
     done
 
 fi
