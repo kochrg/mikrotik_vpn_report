@@ -40,10 +40,10 @@ else
     cp ./generate-vpn-report-sample.sh ./generate-vpn-report.sh
     cp ./backup-vpn-report-sample.sh ./backup-vpn-report.sh
     echo -n "Adding to crontab..."
-    echo "$M $H\t* * *\troot\tsh $SCRIPTPATH/backup-vpn-report.sh"
-    echo "$M $H\t$REPORTDAY * *\troot\tsh $SCRIPTPATH/generate-vpn-report.sh"
-    echo -n "Remember to edit $SCRIPTPATH/generate-vpn-report.sh "
-    echo -n "and $SCRIPTPATH/backup-vpn-report.sh for personal config."
+    echo "$M $H\t* * *\troot\tbash $SCRIPTPATH/backup-vpn-report"
+    echo "$M $H\t$REPORTDAY * *\troot\tbash $SCRIPTPATH/generate-vpn-report"
+    echo -n "Remember to edit $SCRIPTPATH/generate-vpn-report "
+    echo -n "and $SCRIPTPATH/backup-vpn-report for personal config."
 fi
 
 echo -n "DONE...."
