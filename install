@@ -14,6 +14,7 @@ H=21
 
 # Minutes
 M=00
+M2=05
 
 if cat /etc/crontab | grep "generate-vpn-report"; then
     # Script is installed, uninstall?
@@ -40,8 +41,8 @@ else
     cp ./generate-vpn-report-sample ./generate-vpn-report
     cp ./backup-vpn-report-sample ./backup-vpn-report
     echo -n "Adding to crontab..."
-    echo "$M $H\t* * *\troot\tbash $SCRIPTPATH/backup-vpn-report"
-    echo "$M $H\t$REPORTDAY * *\troot\tbash $SCRIPTPATH/generate-vpn-report"
+    echo "$M $H\t* * *\troot\tbash $SCRIPTPATH/backup-vpn-report" >> "/etc/crontab"
+    echo "$M2 $H\t$REPORTDAY * *\troot\tbash $SCRIPTPATH/generate-vpn-report" >> "/etc/crontab"
     echo -n "Remember to edit $SCRIPTPATH/generate-vpn-report "
     echo -n "and $SCRIPTPATH/backup-vpn-report for personal config."
 fi
